@@ -1,0 +1,20 @@
+% overlayDirection == 2     SEM to EBSD
+ebsdSizeX = 601;
+ebsdSizeY = 500;
+xtemp=x(1:3:end);
+ytemp=y(1:3:end);
+boundaryTFtemp=boundaryTF(1:3:end);
+xtemp=xtemp(boundaryTFtemp~=0);
+ytemp=ytemp(boundaryTFtemp~=0);
+boundaryTFtemp = boundaryTFtemp(boundaryTFtemp~=0);
+scatter3(xtemp,ytemp,1000*boundaryTFtemp,1,'k');
+hold;
+surf(x,y,e1,'edgecolor','none');
+colorbar;
+xlim([1,ebsdSizeX]);
+ylim([1,ebsdSizeY]);
+caxis([-.4,.4]);
+axis normal;
+set(gca,'ydir','reverse');
+view(0,90);
+clear('xtemp','ytemp','boundaryTFtemp','ebsdSizeX','ebsdSizeY');
