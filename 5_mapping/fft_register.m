@@ -6,8 +6,10 @@
 % use fft to find image shift
 % Ref: Manuel Guizar-Sicairos, Samuel T. Thurman, and James R. Fienup
 % and their codes
+%
+% chenzhe, 2017-11-20, add a Satizsky-Golay filter
 
-function [r_shift, c_shift, img2_out_ffted] = fft_register(img1, img2, wrt, crop1, crop2)
+function [r_shift, c_shift, img2_out_ffted] = fft_register(img1, img2, wrt, crop1, crop2, filterTF)
 r1a = 0;r1b=0;c1a=0;c1b=0;r2a=0;r2b=0;c2a=0;c2b=0;
 % initial crop data
 if exist('crop1','var')
@@ -37,6 +39,12 @@ t2 = fft2(img2);
 CC = ifft2(t1.*conj(t2));
 CCabs = abs(CC);
 % figure;surf(CCabs,'edgecolor','none'),set(gca,'ydir','reverse');
+if 1==filterTF
+    filtered = CCabs;
+    filtered = sgolayfilt(filtered,1,5,[],1);
+    filtered = sgolayfilt(filtered,1,5,[],2);
+    CCabs = CCabs-filtered;
+end
 [r_shift, c_shift] = find(CCabs == max(CCabs(:)),1,'first');
 
 CCmax = CC(r_shift,c_shift)*nR*nC;
