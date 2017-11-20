@@ -10,7 +10,7 @@ plotDeformed = true;
 colorbarOnOff = 'on';
 targetField = 'exx';
 colorbarTitle = '\epsilon_x_x';
-fontSize = 12;
+fontSize = 18;
 c_min = -0.004;
 c_max = 0.004;
 
@@ -73,7 +73,7 @@ if(f3)
     boundary_surf = ones(size(x_surf)).*boundaryTF_fwd*100;
 end
 %%
-figure;hold on; axis off;
+figure();hold on; axis off;
 
 image([x_low,x_high],[y_low,y_high],img,'AlphaData', .8);
 surf(x_surf,y_surf,val+1, val, 'FaceAlpha', .6, 'LineStyle', 'none');
@@ -90,7 +90,9 @@ if((~exist('c_min','var'))||isempty(c_min))
 end
 caxis([c_min,c_max]); colormap default; cbar = colorbar;
 set(cbar,'fontsize',fontSize,'visible',colorbarOnOff);
-title(cbar,colorbarTitle,'fontsize',fontSize);
+% title(cbar,colorbarTitle,'fontsize',fontSize);
+title(colorbarTitle,'fontsize',fontSize);
 
+%%
 print([p1,'overLayOutput_',targetField],'-dtiff','-r600');
 
