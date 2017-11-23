@@ -8,8 +8,16 @@
 % and their codes
 %
 % chenzhe, 2017-11-20, add a Satizsky-Golay filter
+%
+% chenzhe, 2017-11-22, Note: in this definition, 'img2' is the 'sliding
+% window'.  However, I recently found that in the mathamatical definition
+% of cross correlation, F(X)G, F is the sliding window.
 
-function [r_shift, c_shift, img2_out_ffted] = fft_register(img1, img2, wrt, crop1, crop2, filterTF)
+function [r_shift, c_shift, img2_out_ffted] = fft_register(img1_image, img2_window, wrt, crop1, crop2, filterTF)
+
+img1 = img1_image;
+img2 = img2_window;
+
 r1a = 0;r1b=0;c1a=0;c1b=0;r2a=0;r2b=0;c2a=0;c2b=0;
 % initial crop data
 if exist('crop1','var')
@@ -36,7 +44,7 @@ img2 = img;
 % fft
 t1 = fft2(img1);
 t2 = fft2(img2);
-CC = ifft2(t1.*conj(t2));
+CC = ifft2(conj(t2).*t1);
 CCabs = abs(CC);
 % figure;surf(CCabs,'edgecolor','none'),set(gca,'ydir','reverse');
 if 1==filterTF
