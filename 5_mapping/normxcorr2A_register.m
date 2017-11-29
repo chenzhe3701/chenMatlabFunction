@@ -37,8 +37,8 @@ end
 cc = normxcorr2A(img1,img2,filterTF);
 [ypeak, xpeak] = find(cc == max(cc(:)));
 % img1 wrt img2
-yOffset = ypeak - size(img1,2);
-xOffSet = xpeak - size(img1,1);
+yOffset = ypeak - size(img1,1);
+xOffSet = xpeak - size(img1,2);
 
 % consider initial cut
 yOffset = yOffset - r1a + r2a;
