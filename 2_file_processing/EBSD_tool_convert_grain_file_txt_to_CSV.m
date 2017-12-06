@@ -1,6 +1,12 @@
 % Zhe Chen, 2015-10-28 note
 % Select type-1 or type-2 grain file (txt format).
 % Output is csv format file.
+%
+% chenzhe, 2017-12-05
+% modify to use xlswrite before csvwrite.  This can write data more than 1
+% million rows.
+% I don't remember why I used xlswrite after csvwrite.  Maybe due to empty
+% header?  If some error happens, check this note.
 
 clear;
 [f, p] = uigetfile('*.txt');
@@ -129,8 +135,9 @@ if grainFileType == 1
         currentRowData = textscan(C{iRow + nHeaderRow},'%f',nCSVHeader);
         dataMatrix(iRow,:) = currentRowData{1,1}';
     end
-    csvwrite([p, strtok(f,'.'), '.csv'],dataMatrix,1,0);
     xlswrite([p, strtok(f,'.'), '.csv'],header)
+    csvwrite([p, strtok(f,'.'), '.csv'],dataMatrix,1,0);
+    
 end
 
 if grainFileType == 2
