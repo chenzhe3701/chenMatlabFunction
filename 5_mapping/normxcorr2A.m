@@ -39,7 +39,7 @@ end
 end
 
 
-% imaging we have a 2d-cumsum [AB;CD], then D = ABCD-AC-AB+A
+% imagine we have a 2d-cumsum [AB;CD], then D = ABCD-AC-AB+A
 % [AB;CD] is 'fen kuai ju zhen'
 function s = local_sum(A,m,n)
 B = A;
