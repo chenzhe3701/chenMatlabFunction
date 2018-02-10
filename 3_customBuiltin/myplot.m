@@ -29,9 +29,9 @@ limit_y_low = 1;
 limit_x_low = 1;
 [limit_y_high, limit_x_high] = size(M{1});
 
+f=figure;
 switch k
     case 1
-        f=figure;
         set(f,'position',[50,50,800,600]);
         surf(double(M{1}),'edgecolor','none');
         c=colorbar;
@@ -39,7 +39,6 @@ switch k
         title(strrep(inputname(1),'_','\_'));
         m = M{1};
     case 2
-        f=figure;
         set(f,'position',[50,50,800,600]);
         if size(M{1},3)==3
             p = M{1};
@@ -64,7 +63,6 @@ switch k
         limit_x_high = max(x(:));
         limit_y_low = min(y(:));
         limit_y_high = max(y(:));
-        f=figure;
         set(f,'position',[50,50,800,600]);
         surf(x,y,double(M{3}),'edgecolor','none');
         c=colorbar;
@@ -78,7 +76,6 @@ switch k
         limit_x_high = max(x(:));
         limit_y_low = min(y(:));
         limit_y_high = max(y(:));
-        f=figure;
         set(f,'position',[50,50,800,600]);
         surf(x,y,double(M{3}),'edgecolor','none');
         c=colorbar;
