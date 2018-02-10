@@ -10,10 +10,10 @@
 % note that it seems like currently, no symmetry considered, so the angle
 % is not regulated
 
-function [phi1_d,phi_d,phi2_d]=align_euler_to_sample(phi1_d,phi_d,phi2_d,method,p1,pp,pb)
+function [phi1_d,phi_d,phi2_d]=align_euler_to_sample(phi1_d,phi_d,phi2_d,method,p1,pp,p2)
 switch method
     case {'mtex',1}
-        rot = rotation('Euler',p1*degree,pp*degree,pb*degree);
+        rot = rotation('Euler',p1*degree,pp*degree,p2*degree);
         h = waitbar(0,'rotating data...');
         nN = length(phi1_d(:));
         for ii = 1:nN
@@ -28,7 +28,7 @@ switch method
         end
         
     otherwise
-        M = angle2dcm(p1/180*pi,pp/180*pi,pb/180*pi,'zxz');
+        M = angle2dcm(p1/180*pi,pp/180*pi,p2/180*pi,'zxz');
         h = waitbar(0,'rotating data...');
         nN = length(phi1_d(:));
         for ii = 1:nN
