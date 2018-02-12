@@ -148,7 +148,7 @@ end
 
 set(f,'currentaxes',a);
 [x,y] = getpts;
-[nr,nc] = size(ID);
+
 for ii = 1:size(x,1)
     [~,subx] = min(abs(X(1,:)-x(ii)));
     [~,suby] = min(abs(Y(:,1)-y(ii)));
@@ -163,7 +163,18 @@ catch
     tNote.disable = [0 0];
 end
 tNote.enable = [tNote.enable;[idNum(:),cNum(:)]];
+
+% if accidentally enabled, can disable
+for ii=1:size(tNote.enable,1)
+    idx = ismember(tNote.disable,tNote.enable(ii,:),'rows');
+    if sum(idx)>0
+        tNote.disable(idx,:) = [0 0];
+        tNote.enable(ii,:) = [0 0];
+    end
+end
+
 tNote.enable = unique(tNote.enable,'rows');
+tNote.disable = unique(tNote.disable,'rows');
 
 assignin('base','tNote',tNote);
 end
@@ -180,7 +191,7 @@ end
 
 set(f,'currentaxes',a);
 [x,y] = getpts;
-[nr,nc] = size(ID);
+
 for ii = 1:size(x,1)
     [~,subx] = min(abs(X(1,:)-x(ii)));
     [~,suby] = min(abs(Y(:,1)-y(ii)));
@@ -195,7 +206,18 @@ catch
     tNote.disable = [0 0];
 end
 tNote.disable = [tNote.disable;[idNum(:),cNum(:)]];
+
+% if accidentally enabled, can disable
+for ii=1:size(tNote.disable,1)
+    idx = ismember(tNote.enable,tNote.disable(ii,:),'rows');
+    if sum(idx)>0
+        tNote.enable(idx,:) = [0 0]; 
+        tNote.disable(ii,:) = [0 0];
+    end
+end
+
 tNote.disable = unique(tNote.disable,'rows');
+tNote.enable = unique(tNote.enable,'rows');
 
 assignin('base','tNote',tNote);
 end
