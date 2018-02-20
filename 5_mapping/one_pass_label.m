@@ -1,3 +1,8 @@
+% chenzhe, 2018-02-17
+% add note: this code can generate a unique 'grain ID' to continues areas
+% on a map 'PM' that has a number of continuous regions, and each region
+% has a unique value in the 'PM' matrix.
+
 function labels = one_pass_label(PM)
 PM = PM';
 labeled = zeros(size(PM));
