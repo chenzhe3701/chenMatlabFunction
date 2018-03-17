@@ -13,6 +13,7 @@ currentPhase = PM(ind);
 ind_max = length(PM(:));
 [nR,nC] = size(PM);
 myQ = [];
+
 while ind <= ind_max
     currentPhase = PM(ind);
     if (labeled(ind)==0)&&(PM(ind)==currentPhase)
@@ -50,4 +51,6 @@ while ind <= ind_max
         ind = ind + 1;
     end
 end
+
 labels = labels';
+
