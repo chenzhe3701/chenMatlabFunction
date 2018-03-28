@@ -66,8 +66,14 @@ M(1==TF) = -inf;
 Malpha = ones(size(M));
 Malpha(isnan(M)) = 0;
 % modify the colormap to make smallest black, biggest white.
-colormap([0 0 0; colormap; 1 1 1]);
-
+mL = winter(32);
+mL = mL(32:-1:1,:);
+mH = autumn(32);
+mH = mH(1:32,:);
+map = [mL;mH];
+map = [0 0 0;
+    map;
+    1 1 1;];
 
 hold on;
 set(f,'position',[50,50,800,600]);
@@ -78,6 +84,7 @@ try
     caxis(gca, [clim(1), clim(2)]);
 end
 c = colorbar;
+colormap(map);
 
 axis equal;
 a=gca;
@@ -88,7 +95,7 @@ set(a,'ydir','reverse','xLim',[limit_x_low,limit_x_high],'yLim',[limit_y_low,lim
 s = uicontrol('Parent',f,...
     'Style','slider',...
     'Units','normalized',...
-    'Position',[c.Position(1) + 2*c.Position(3), c.Position(2), c.Position(3), c.Position(4)],...
+    'Position',[c.Position(1) + 3*c.Position(3), c.Position(2), c.Position(3), c.Position(4)],...
     'Min',clim(1),'Max',clim(2),'Value',mean(clim),'SliderStep',[1/500, 1/500]);
 
 set(s,'Units','pixels');
@@ -120,10 +127,13 @@ temp = colormap;
 n = size(temp,1);
 % set clim for the image axis
 set(a,'clim', [clim(1),clim(1)+(value-clim(1))/(n-1)*n]); % this is to handle the error might be caused by interpolation !!!
-
+% Note, this actually makes the 'value_upper' the 2nd highest grid position
+% on the color bar. The real clim_upper is now 1/(N-1) of the colorbar
+% length larger. This makes sure that anything larger than value_upper can
+% be interpolated as white.
 
 % reset the slider limit based on new value
-set(source,'Position',[c.Position(1) + 2*c.Position(3), c.Position(2), c.Position(3), c.Position(4)],...
+set(source,'Position',[c.Position(1) + 3*c.Position(3), c.Position(2), c.Position(3), c.Position(4)],...
     'Min',clim(1),'Max',clim(1)+2*(value-clim(1)),'Value',value,'SliderStep',[1/500, 1/500]);
 
 set(source,'Units','pixels');

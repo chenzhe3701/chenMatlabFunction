@@ -4,7 +4,11 @@
 
 function map = colormapA(mapIn)
 if nargin==0
-    mapIn = 'default';
+    mL = winter(32);
+    mL = mL(32:-1:1,:);
+    mH = autumn(32);
+    mH = mH(1:32,:);
+    mapIn = [mL;mH];    
 end
 colormap(mapIn);
 map = colormap;
