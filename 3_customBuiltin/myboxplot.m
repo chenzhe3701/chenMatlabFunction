@@ -2963,10 +2963,7 @@ ax = ancestor(boxparent,'axes');
 if  size(columnPtsPosition,2)==1 && strcmp(orientation,'vertical') && ...
         strcmp(labelorientation,'horizontal')
     set(ax,'XTickLabel',labelText,'XTick',labelDataLocation)
-    if ~verLessThan('matlab','8.4.0')
-%     if ~matlab.graphics.internal.isGraphicsVersion1()
-        set(ax,'TickLabelInterpreter','none');
-    end
+    set(ax,'TickLabelInterpreter','none');
     h = labelText;
     labelAxis = 'x';
     setLabelappdata()
@@ -2975,9 +2972,7 @@ end
 if  size(columnPtsPosition,2)==1 && strcmp(orientation,'horizontal') && ...
         strcmp(labelorientation,'horizontal')    
     set(ax,'YTickLabel',labelText,'YTick',labelDataLocation);
-    if ~matlab.graphics.internal.isGraphicsVersion1()
-        set(ax,'TickLabelInterpreter','none');
-    end
+    set(ax,'TickLabelInterpreter','none');
     h = labelText;
     labelAxis = 'y';
     setLabelappdata()
@@ -3054,7 +3049,8 @@ f=ancestor(ax,'figure');
 
 internal.stats.BoxPlotListenerManager.repositionLabels(f,ax);
 
-if matlab.graphics.internal.isGraphicsVersion1
+if ~verLessThan('matlab','8.4.0')
+% if matlab.graphics.internal.isGraphicsVersion1
     % Make listeners to invoke the callback when required
     makelisteners(ax);
 else
@@ -3098,7 +3094,8 @@ function makelisteners(ax,varargin)
     boxparent = getappdata(ax,'boxplothandle');
     labelAxis = getappdata(boxparent,'labelaxis');
     
-    if matlab.graphics.internal.isGraphicsVersion1
+    if ~verLessThan('matlab','8.4.0')
+%     if matlab.graphics.internal.isGraphicsVersion1
         listeners = internal.stats.BoxPlotListenerManager.makeListeners(f, ax, labelAxis);
         
         % if we got a BoxPlotListenerManager from HG2, get rid of it. HG1 doesn't need it
