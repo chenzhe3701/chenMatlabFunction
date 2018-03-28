@@ -74,6 +74,7 @@ map = [mL;mH];
 map = [0 0 0;
     map;
     1 1 1;];
+map(end,:) = map(end-1,:);  % this use 'yellow' rather than 'white' for max value 
 
 hold on;
 set(f,'position',[50,50,800,600]);
@@ -127,12 +128,8 @@ temp = colormap;
 n = size(temp,1);
 
 % set clim for the image axis
-% case (1) Note, the following makes the 'value_upper' the 2nd highest grid position
-% on the color bar. The real clim_upper is now 1/(N-1) of the colorbar
-% length larger. This makes sure that anything larger than value_upper can
-% be interpolated as white.
-% This is useful when I use 'white' vs 'yellow' to indicate the threshold.  
-set(a,'clim', [clim(1),clim(1)+(value-clim(1))/(n-1)*n]); % this is to handle the error might be caused by interpolation !!!
+% use value as mid-point of the colorbar.
+set(a,'clim', [clim(1),clim(1)+2*(value-clim(1))]);
 
 
 % reset the slider limit based on new value
