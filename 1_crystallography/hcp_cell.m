@@ -18,16 +18,42 @@
 %
 % chenzhe, 2017-08-23
 % edit: if SETTING = 0, can input a 1x3 vector as varargin to define phi_sys
+%
+% chenzhe, 2018-03-28.  Currently, 13-24 = 1st order <c+a>, 25-30 = TT.
+% 'material' just control the c_a ratio, not the slip systems.
+%
+% add more options using input parser, inputs are:
+% euler('euler',randi[1x3]), 
+% IMAGING_CONVENTION('imaging_convention',default=1), 
+% SETTING('setting',default=0), 
+% sysToPlot('ss',default=1)
+% material('material',default='Mg')
+% Stress_State('stress',default = [1 0 0; 0 0 0; 0 0 0])
+% phi_sys('phi_sys',default = [0 0 0])
 
-function [] = hcp_cell(euler, IMAGING_CONVENTION, SETTING, sysToPlot, varargin)
+function [] = hcp_cell(varargin)
+
+p = inputParser;
+
+addParameter(p,'euler', randi(360,1,3));
+addParameter(p,'IMAGING_CONVENTION', 1);
+addParameter(p,'SETTING',0);
+addParameter(p,'ss',1);
+addParameter(p,'material','Mg');
+addParameter(p,'stress',[1 0 0; 0 0 0; 0 0 0]);
+addParameter(p,'phi_sys',[0 0 0]);
+
+parse(p,varargin{:});
+
+euler = p.Results.euler;
+IMAGING_CONVENTION = p.Results.IMAGING_CONVENTION;
+SETTING = p.Results.SETTING;
+plotPool = p.Results.ss;
+material = p.Results.material;
+Stress_State = p.Results.stress;
+phi_sys = p.Results.phi_sys;
 
 Colors = [1 0 0; 0 0 1; 0 0 0; 0 1 0; 1 0 1];   % 'r', 'b', 'k', 'g', 'm'
-% IMAGING_CONVENTION = 0;
-% SETTING = 2;
-
-% euler = [219.838	35.447	154.54];    % grain 3, dongdi
-% euler = [148, 105, 334];    % grain 3, dongdi
-% % euler = [199.957	87.838	185.19];    % grain 24, dongdi
 
 ExtensionTwin = 1; 
 PyII = double(~logical(ExtensionTwin));
@@ -35,38 +61,31 @@ PLOT_PLANE = 1;
 PLOT_CELL = 1;
 PLOT_BURGERS = 1;
 PLOT_TRACE = 1;
-if ~exist('sysToPlot','var')
-    plotPool = [1];
-else
-    plotPool = sysToPlot;
-end
 
-if IMAGING_CONVENTION == 0
-    %     SETTING = 0;        % ignore SETTING if IMAGING_CONVENTION==0
-    %     phi_sys = [0 0 0];
-end
+% if setting ~=0, ignore input 'phi_sys'
 if SETTING == 2
-    phi_sys = [-90 180 0];  % UM nominal
+    phi_sys = [-90 180 0];  % UM nominal, UCSB real.
+    disp('SETTING=2, ignore input phi_sys');
 elseif SETTING == 1
     phi_sys = [90 180 0];   % MSU, UM actual
+    disp('SETTING=1, ignore input phi_sys');
 elseif SETTING == 0
-    if isempty(varargin)
-        phi_sys = [0 0 0];   % no modification.  no setting match this
-    else
-        phi_sys = varargin{1};
-    end
+    phi_sys = phi_sys;
 end
 
 phi_error = [0 0 0];
 display(['Euler angle in degree: ',num2str(euler)]);
 display(['System rotation angle in degree: ',num2str(phi_sys)]);
 
-Stress_State = [ 1 0 0; 0 0 0; 0 0 0];
 Stress_State = Stress_State/norm(Stress_State);
 sample_normal = [0 0 1];  % sample normal direction. Actually, direction you are interested in, can change this to other.
-c_a = 1.58; % Ti
-c_a = 1.62; % Mg
-c_a = 1.5925; % Zr
+if strcmpi(material,'Ti')
+    c_a = 1.58; % Ti
+elseif strcmpi(material,'Mg')
+    c_a = 1.62; % Mg
+elseif strcmpi(material,'Zr')
+    c_a = 1.5925; % Zr
+end
 nss = 30;
 
 phi1 = euler(1);
