@@ -16,6 +16,9 @@ for ii=1:k
 end
 
 ratio = ceil(length(M{1})/3000);    % reduce ratio if necessary
+if 5==k
+    ratio = M{5};
+end
 if ratio > 1
     display(['matrix is big, use reduced ratio = ',num2str(ratio)]);
     for ii=1:length(M)
@@ -69,7 +72,7 @@ switch k
         caxis(caxis);
         title(strrep(inputname(3),'_','\_'));
         m = M{3};
-    case 4
+    case {4,5}
         x = M{1};
         y = M{2};
         limit_x_low = min(x(:));
