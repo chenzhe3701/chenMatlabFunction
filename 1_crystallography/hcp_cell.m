@@ -43,6 +43,10 @@ addParameter(p,'material','Mg');
 addParameter(p,'stress',[1 0 0; 0 0 0; 0 0 0]);
 addParameter(p,'phi_sys',[0 0 0]);
 
+addParameter(p,'plotPlane',1);
+addParameter(p,'plotBurgers',1);
+addParameter(p,'plotTrace',1);
+
 parse(p,varargin{:});
 
 euler = p.Results.euler;
@@ -53,14 +57,18 @@ material = p.Results.material;
 Stress_State = p.Results.stress;
 phi_sys = p.Results.phi_sys;
 
+PLOT_PLANE = p.Results.plotPlane;
+PLOT_BURGERS = p.Results.plotBurgers;
+PLOT_TRACE = p.Results.plotTrace;
+
 Colors = [1 0 0; 0 0 1; 0 0 0; 0 1 0; 1 0 1];   % 'r', 'b', 'k', 'g', 'm'
 
 ExtensionTwin = 1; 
 PyII = double(~logical(ExtensionTwin));
-PLOT_PLANE = 1;
+% PLOT_PLANE = 1;
 PLOT_CELL = 1;
-PLOT_BURGERS = 1;
-PLOT_TRACE = 1;
+% PLOT_BURGERS = 1;
+% PLOT_TRACE = 1;
 
 % if setting ~=0, ignore input 'phi_sys'
 if SETTING == 2
