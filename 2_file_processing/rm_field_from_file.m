@@ -1,6 +1,10 @@
 % remove some fields from a .mat file
-%
 % chenzhe, 2017-05-31
+%
+% rm_field_from_file(pf, varargin), where varargin are the names of theJ
+% fields to remove.
+% chenzhe, note added 2018-05-14
+
 function rm_field_from_file(pf, varargin)
 
 d = load(pf);
