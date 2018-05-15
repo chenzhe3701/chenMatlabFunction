@@ -1,9 +1,12 @@
+% [boundaryTF, boundaryID, neighborID, tripleTF, tripleID] 
+% = find_one_boundary_from_ID_matrix(ID)
 % Find a boundary depending on the right and bottom pixel. If the pixel to
 % the right/bottom belongs to another grain, it is a grain boundary point.
 %
 % Something important to remember is that there could be nan's in ID.
 % And these should not be considered as G.B.
-%
+% Note that currently, I need to make nan IDs into 0 or something. -- Need
+% to improve, mabe.
 % chenzhe, 2018-05-14
 
 function [boundaryTF, boundaryID, neighborID, tripleTF, tripleID] = find_one_boundary_from_ID_matrix(ID)
