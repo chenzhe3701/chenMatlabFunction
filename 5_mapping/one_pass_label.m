@@ -2,6 +2,8 @@
 % add note: this code can generate a unique 'grain ID' to continues areas
 % on a map 'PM' that has a number of continuous regions, and each region
 % has a unique value in the 'PM' matrix.
+% 
+% chenzhe, 2018-05-16, correct an error on checking last row.
 
 function labels = one_pass_label(PM)
 PM = PM';
@@ -25,22 +27,22 @@ while ind <= ind_max
             ind_pop = myQ(1);
             myQ(1) = [];
             % check ind_pop's neighbor
-            if (rem(ind_pop,nR)>0)&&(labeled(ind_pop+1)==0)&&(PM(ind_pop+1)==currentPhase)
+            if (rem(ind_pop-1,nR)<nR-1)&&(labeled(ind_pop+1)==0)&&(PM(ind_pop+1)==currentPhase)  % not the last row
                 myQ = [myQ, ind_pop+1];
                 labels(ind_pop+1) = currentLabel;
                 labeled(ind_pop+1) = 1;
             end
-            if (rem(ind_pop,nR)>1)&&(labeled(ind_pop-1)==0)&&(PM(ind_pop-1)==currentPhase)
+            if (rem(ind_pop-1,nR)>0)&&(labeled(ind_pop-1)==0)&&(PM(ind_pop-1)==currentPhase) % not the first row
                 myQ = [myQ, ind_pop-1];
                 labels(ind_pop-1) = currentLabel;
                 labeled(ind_pop-1) = 1;
             end
-            if (floor((ind_pop-1)/nR)>0)&&(labeled(ind_pop-nR)==0)&&(PM(ind_pop-nR)==currentPhase)
+            if (floor((ind_pop-1)/nR)>0)&&(labeled(ind_pop-nR)==0)&&(PM(ind_pop-nR)==currentPhase)  % not the first colomn
                 myQ = [myQ, ind_pop-nR];
                 labels(ind_pop-nR) = currentLabel;
                 labeled(ind_pop-nR) = 1;
             end
-            if (floor((ind_pop-1)/nR)<nC-1)&&(labeled(ind_pop+nR)==0)&&(PM(ind_pop+nR)==currentPhase)
+            if (floor((ind_pop-1)/nR)<nC-1)&&(labeled(ind_pop+nR)==0)&&(PM(ind_pop+nR)==currentPhase)   % not the last colomn
                 myQ = [myQ, ind_pop+nR];
                 labels(ind_pop+nR) = currentLabel;
                 labeled(ind_pop+nR) = 1;
