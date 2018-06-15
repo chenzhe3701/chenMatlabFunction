@@ -26,6 +26,7 @@ parse(p,varargin{:});
 phi_sys = p.Results.phi_sys; 
 phi_error = p.Results.phi_error;
 sample_direction_of_interest = p.Results.sample_direction_of_interest;
+sample_direction_of_interest = sample_direction_of_interest/norm(sample_direction_of_interest);
 ss_of_interest = p.Results.ss_of_interest;
 stressTensor = p.Results.stressTensor;
 
