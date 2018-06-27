@@ -9,7 +9,7 @@
 % rewrite based on reference, to improve speed and reduce bugs
 % http://csclab.murraystate.edu/~bob.pilgrim/445/munkres.html
 
-function [worker, job, worker_full, job_full] = hungarian(M)
+function [worker, job, worker_full, job_full] = hungarian_assign(M)
 
 % step-0: matrix cost(i,j) = worker(i), job(j). Rotate so that nC>=nR
 if size(M,1)>size(M,2)
