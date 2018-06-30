@@ -18,6 +18,8 @@ if size(M,1)>size(M,2)
 else
     switched = 0;
 end
+M_in = M;
+
 [nR,nC] = size(M);  % k = min(nR,nC);
 
 done = false;
@@ -175,7 +177,7 @@ while(~done)
                     worker_full = [worker_full;iWorker];
                     job_full = [job_full;iJob];
                 else
-                    [~,iWorker] = min(M(:,iJob));
+                    [~,iWorker] = min(M_in(:,iJob));
                     worker_full = [worker_full;iWorker];
                     job_full = [job_full;iJob];
                 end
