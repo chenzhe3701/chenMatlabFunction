@@ -6,8 +6,10 @@
 %
 % The output misorientationStruct is neighborStruct with addition field
 % neighborStrut.misorientation{grain-1}(grain-2s)
-
+%
 % Zhe Chen, 2015-08-04 revised.
+% chenzhe, 2018-07-30, modify so that if grain has no neighbors, neighborStruct.misorientation{iGrain1}(iGrain2) = nan;
+
 function misorientationStruct = construct_misorientation_structure(neighborStruct, gPhi1, gPhi, gPhi2)
 
 for iGrain1=1:length(neighborStruct.g1)
@@ -21,8 +23,11 @@ for iGrain1=1:length(neighborStruct.g1)
         phiG2 = gPhi(grain2Index);
         phi2G2 = gPhi2(grain2Index);
         
+        if ~isempty(grain2Index)
         neighborStruct.misorientation{iGrain1}(iGrain2) = calculate_misorientation_hcp([phi1G1, phiG1, phi2G1], [phi1G2, phiG2, phi2G2]);
-        
+        else
+        neighborStruct.misorientation{iGrain1}(iGrain2) = nan;
+        end
     end
 end
 misorientationStruct = neighborStruct;
