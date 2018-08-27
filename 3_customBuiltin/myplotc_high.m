@@ -8,8 +8,10 @@
 % So, try to use imagesc.
 %
 % chenzhe, 2018-02-10. Built-in to select points
+% chenzhe, 2018-08-26. Modify based on myplotc, use to select data points
+% larger than threshold.
 
-function [f,a,c,s,v] = myplotc(M,varargin)
+function [f,a,c,s,v] = myplotc_high(M,varargin)
 
 p = inputParser;
 
@@ -61,7 +63,7 @@ clim = quantile(M(:),[0.005, 0.995]);
 rmin = nanmin(M(:));
 
 % Modify M to make grainboundary as -inf.
-M(1==TF) = -inf;
+M(1==TF) = inf;
 % Let the alpha of nan points to be 0.
 Malpha = ones(size(M));
 Malpha(isnan(M)) = 0;
@@ -71,10 +73,10 @@ mL = mL(32:-1:1,:);
 mH = autumn(32);
 mH = mH(1:32,:);
 map = [mL;mH];
-map = [0 0 0;
-    map;
-    1 1 1;];
-map(end,:) = map(end-1,:);  % this use 'yellow' rather than 'white' for max value 
+map = [1 1 1;
+    flipud(map);
+    0 0 0;];
+map(1,:) = map(2,:);  % this use 'yellow' rather than 'white' for max value 
 
 hold on;
 set(f,'position',[50,50,800,600]);
@@ -114,14 +116,15 @@ b_disable.Callback = {@callback_disable_twin,f,a};
 
 end
 
+% This is used to help select values larger than a threshold.
 function callback_slider(source,event,f,a,c,v)
 % get value of the slider
 clim = caxis;
 value = source.Value;
-if value == source.Min
-    value = clim(1) + (clim(2)-clim(1))/5; % at most, reduce 5 times scale
-elseif value == source.Max
-    value = clim(1) + (clim(2)-clim(1))*5;
+if value == source.Max
+    value = clim(2) - (clim(2)-clim(1))/5; % at most, reduce 5 times scale
+elseif value == source.Min
+    value = clim(2) - (clim(2)-clim(1))*5;
 end
 
 temp = colormap;
@@ -129,12 +132,11 @@ n = size(temp,1);
 
 % set clim for the image axis
 % use value as mid-point of the colorbar.
-set(a,'clim', [clim(1),clim(1)+2*(value-clim(1))]);
-
+set(a,'clim', [clim(2)-2*(clim(2)-value),clim(2)]);
 
 % reset the slider limit based on new value
 set(source,'Position',[c.Position(1) + 3*c.Position(3), c.Position(2), c.Position(3), c.Position(4)],...
-    'Min',clim(1),'Max',clim(1)+2*(value-clim(1)),'Value',value,'SliderStep',[1/500, 1/500]);
+    'Min',clim(2)-2*(clim(2)-value),'Max',clim(2),'Value',value,'SliderStep',[1/500, 1/500]);
 
 set(source,'Units','pixels');
 set(v,'Position',[source.Position(1), source.Position(2)+source.Position(4)+5, source.Position(3)+30, 20],'String',num2str(source.Value));
@@ -145,6 +147,7 @@ set(source,'Units','normalized');
 % disp(['c limits: ',num2str(clim)]);
 % disp(['value: ',num2str(source.Value)]);
 end
+
 
 function callback_enable_twin(source, event, f,a)
 try
