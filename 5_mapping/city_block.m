@@ -11,8 +11,15 @@
 % output: (1) dist is the matrix containing city-block distance
 % (2) uniqueGB is a matrix showing the id of the uniqueGB to which each
 % pixel's city-block-distance is calculated from.
+%
+% chenzhe, 2019-09-18, add check, in case input contains only zero.
 
 function [dist_man, uniqueGB] = city_block(uniqueGB,varargin)
+
+if nansum(uniqueGB(:))==0
+    dist_man = zeros(size(uniqueGB));
+    return;
+end
 
 uniqueGB(uniqueGB==0) = nan;
 dist_man = uniqueGB;
@@ -35,14 +42,20 @@ end
 
 while loop<=loop_limit
     pt_left = sum((dist_man(:)==0));
-    disp(['complete pct: ',num2str(1-pt_left/nR/nC)]);
+    
+    if mod(loop, 100)==0
+        disp(['complete pct: ',num2str(1-pt_left/nR/nC)]);
+    end
+    
     if pt_left==0
         disp(['complete']);
         break
     end
     
-    disp(['current g.b. thickness: ',num2str(loop)]);
     loop = loop + 1; % add 1 here, because initial dist is (0,1) instead of (nan,0)
+    if mod(loop,100)==0
+        disp(['current g.b. thickness: ',num2str(loop)]);    
+    end
     
     newGB = filter2(f,dist_man,'same') & (~dist_man);
     if fast == 1
@@ -62,6 +75,7 @@ while loop<=loop_limit
     end
     
 end
+disp(['final g.b. thickness: ',num2str(loop)]);
 
 dist_man = dist_man - 1;    % decrease by 1, because initial dist is (0,1) instead of (nan,0)
 uniqueGB(isnan(uniqueGB))=0;

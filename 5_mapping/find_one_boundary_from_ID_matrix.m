@@ -8,6 +8,12 @@
 % Note that currently, I need to make nan IDs into 0 or something. -- Need
 % to improve, mabe.
 % chenzhe, 2018-05-14
+%
+% chenzhe, note 2018-09-08. Note currently, looks like if neighbor's ID is
+% 0, then it is not considered as a grain boundary.
+% This might be a useful feature.  But also, if you want to consider a
+% point that has a neighbor pixel with ID=0, you need to first change all
+% ID=0 to ID=some unique number.
 
 function [boundaryTF, boundaryID, neighborID, tripleTF, tripleID] = find_one_boundary_from_ID_matrix(ID)
 

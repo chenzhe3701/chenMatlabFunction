@@ -83,8 +83,9 @@ axis equal;
 a=gca;
 set(a,'ydir','reverse','xLim',[limit_x_low,limit_x_high],'yLim',[limit_y_low,limit_y_high]);
 cStep = (clim(2)-clim(1))/size(colormap,1);
-set(c,'Limits',[clim(1)+cStep,clim(2)-cStep]);
-
+try
+    set(c,'Limits',[clim(1)+cStep,clim(2)-cStep]);
+end
 % % the following handles slider. Can turn off
 % s = uicontrol('Parent',f,...
 %     'Style','slider',...
