@@ -13,9 +13,23 @@
 % 0, then it is not considered as a grain boundary.
 % This might be a useful feature.  But also, if you want to consider a
 % point that has a neighbor pixel with ID=0, you need to first change all
-% ID=0 to ID=some unique number.
+% ID=0 to ID=some unique number. !!!
+%
+% chenzhe, update to correct 2018-09-08 note.
+% The problem WAS: grains with ID=0 cannot get grain boundary due to
+% defects of the algorithm.  So, first change ID=0 to another ID_special,
+% to treat this problem.  After finding boundaries/neighborID/tripleID,
+% change it back.
 
 function [boundaryTF, boundaryID, neighborID, tripleTF, tripleID] = find_one_boundary_from_ID_matrix(ID)
+
+% this is to treat initial ID=0
+ID_input = ID;
+ID_special = max(ID(:)) + 1;
+if any(ID(:)==0)
+    ID(ID==0) = ID_special;
+    disp('Caution: ID matrix has values equal to 0. Be careful when using boundaryID, neighborID and tripleID.');
+end
 
 boundaryTF = zeros(size(ID,1),size(ID,2));      % if pixel is on grain boundary, then this value will be 1
 boundaryID = zeros(size(ID,1),size(ID,2));      % this indicate the grain ID of the grain which the grain boundary belongs to
@@ -41,9 +55,13 @@ tripleTF = ((nb_r~=nb_b)&(nb_r>0)&(nb_b>0)) | ((nb_r~=nb_br)&(nb_r>0)&(nb_br>0))
 neighborID(boundaryTF) = nb_r(boundaryTF);
 ind = (boundaryTF>0)&(neighborID==0);
 neighborID(ind) = nb_b(ind);    % this should be enough. Otherwise, code might be wrong.
+if any(neighborID(:)==ID_special)
+    neighborID(neighborID==ID_special) = 0;
+    disp('change ID_special back to ID');
+end
 
-boundaryID(boundaryTF) = ID(boundaryTF);
-tripleID(boundaryTF) = ID(boundaryTF);
+boundaryID(boundaryTF) = ID_input(boundaryTF);
+tripleID(tripleTF) = ID_input(tripleTF);
 boundaryTF = double(boundaryTF);
 tripleTF = double(tripleTF);
 
