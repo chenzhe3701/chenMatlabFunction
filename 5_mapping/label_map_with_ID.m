@@ -7,7 +7,7 @@
 % 
 % chenzhe, 2018-09-03
 
-function hf = label_map_with_ID(X,Y,ID,hf,target_ID)
+function hf = label_map_with_ID(X,Y,ID,hf,target_ID,color_char,font_size)
 
 set(0,'currentfigure',hf);
 
@@ -17,6 +17,13 @@ if ~exist('target_ID','var')
     target_ID = unique(ID(:));
     target_ID = target_ID(target_ID~=0);
 end
+if ~exist('color_char','var')
+	color_char = 'k';
+end
+if ~exist('font_size','var')
+	font_size = 12;
+end
+
 ID_reduced = ID(1:10:end,1:10:end);
 X_reduced = X(1:10:end,1:10:end);
 Y_reduced = Y(1:10:end,1:10:end);
@@ -27,7 +34,7 @@ for ii = 1:length(target_ID)
     ind = (ID_reduced==id);
     x = mean(X_reduced(ind));
     y = mean(Y_reduced(ind));
-    text(x,y,z,num2str(id));
+    text(x,y,z,num2str(id),'color',color_char,'fontsize',font_size);
 end
 
 hold off;

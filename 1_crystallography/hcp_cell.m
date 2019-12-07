@@ -23,13 +23,16 @@
 % 'material' just control the c_a ratio, not the slip systems.
 %
 % add more options using input parser, inputs are:
-% euler('euler',randi[1x3]), 
-% IMAGING_CONVENTION('imaging_convention',default=1), 
-% SETTING('setting',default=0), 
-% sysToPlot('ss',default=1)
-% material('material',default='Mg')
-% Stress_State('stress',default = [1 0 0; 0 0 0; 0 0 0])
-% phi_sys('phi_sys',default = [0 0 0])
+% euler ('euler', randi[1x3]), 
+% IMAGING_CONVENTION ('imaging_convention', default=1), 
+% SETTING ('setting', default=0), 
+% system to plot ('ss', default=1)
+% material ('material', default='Mg')
+% stress state ('stress', default = [1 0 0; 0 0 0; 0 0 0])
+% phi_sys ('phi_sys', default = [0 0 0])
+% plot plane? ('plotPlane', default = 1)
+% plot burgers vector? ('plotBurgers', default = 1)
+% plot trace? ('plotTrace', default = 1)
 
 function [] = hcp_cell(varargin)
 

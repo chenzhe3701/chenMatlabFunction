@@ -5,10 +5,12 @@
 %
 % Zhe Chen 2015-08-04 revised.
 % Zhe Chen 2016-06-14 revise to use parse_angle_inputs.
+%
+% chenzhe, 2019-10-29, modify to take phi_sys = [1x3] vector (in degree)
 
-function color = calculate_IPF_color_hcp(euler_in,direction)
+function color = calculate_IPF_color_hcp(euler_in,phi_sys, direction)
 
-[euler,phi_sys,phi_error,TF] = parse_angle_inputs(euler_in);
+[euler,phi_sys,phi_error,TF] = parse_angle_inputs(euler_in,phi_sys);
 
 mMatrix = euler_to_transformation(euler,phi_sys,phi_error);  % the 'transformation matrix' defined in continuum mechanics: x=g*X, X is Global corrdinate
 
@@ -26,8 +28,19 @@ end
 alpha = 30-abs(rem(alpha,60)-30);  % change to it's corresponding angle which is between 0-30 degrees.
 
 newZ = Z;
-newY = rXY*sind(alpha)/(1/2);
-newX = rXY*cosd(alpha)-newY*sqrt(3)/2;
+% newY = rXY*sind(alpha)/(1/2);
+% newX = rXY*cosd(alpha)-newY*sqrt(3)/2;
+
+% chenzhe, note, 2019-10-29. The only explanation I can think of now for above, is to stretch a 30 degree sector to a 90 degree section.
+% The point positions are stretched 2 times in the y direction.
+% Sheared to the x-direction, shear distance for newY=1 point is sqrt(3)/2.
+%
+% So, try stretch by angle:
+
+newAlpha = 3 * alpha;
+newX = rXY * cosd(newAlpha);
+newY = rXY * sind(newAlpha);
+
 
 % Z for Red, X for Green, Y for Blue
 R = newZ/sqrt(newZ^2+newX^2+newY^2);

@@ -8,6 +8,8 @@
 % So, try to use imagesc.
 %
 % chenzhe, 2018-02-10. Built-in to select points
+%
+% chenzhe, 2018-09-01, update to correct a few errors on coarsening.
 
 function [f,a,c,s,v] = myplotm(M,varargin)
 
@@ -17,19 +19,24 @@ addRequired(p,'M');
 addOptional(p,'TF',zeros(size(M))*NaN);
 addParameter(p,'X',repmat(1:size(M,2),size(M,1),1));
 addParameter(p,'Y',repmat([1:size(M,1)]',1,size(M,2)));
-addParameter(p,'alpha',1,@isnumeric);
+addParameter(p,'alpha',1,@(x) isnumeric(x)||islogical(x));
 addParameter(p,'handle',-1,@ishandle);
 addParameter(p,'r',0);
+addParameter(p,'PN',-1);
 parse(p,M,varargin{:});
 
 M = p.Results.M;
-TF = p.Results.TF;
+TF = abs(p.Results.TF)>0;
 X = p.Results.X;
 Y = p.Results.Y;
 f = p.Results.handle;
-facealpha = p.Results.alpha;
+Malpha = p.Results.alpha;
 ratio = p.Results.r;   % reduce ratio
+PN = p.Results.PN;  % make boundary +inf or -inf
 
+if length(Malpha)==1
+    Malpha = ones(size(M)) * Malpha;
+end
 if 0==ratio
     ratio = ceil(length(M)/3000);    % reduce ratio if necessary
 end
@@ -37,6 +44,9 @@ if ratio > 1
     display(['matrix is big, use reduced ratio = ',num2str(ratio)]);
     M = M(1:ratio:end,1:ratio:end);
     TF = TF(1:ratio:end,1:ratio:end);
+    X = X(1:ratio:end,1:ratio:end);
+    Y = Y(1:ratio:end,1:ratio:end);
+    Malpha = Malpha(1:ratio:end,1:ratio:end);
 end
 
 limit_x_low = min(X(:));
@@ -61,9 +71,9 @@ clim = quantile(M(:),[0.005, 0.995]);
 rmin = nanmin(M(:));
 
 % Modify M to make grainboundary as -inf.
-M(1==TF) = -inf;
+M(1==TF) = PN * inf;
 % Let the alpha of nan points to be 0.
-Malpha = ones(size(M));
+% Malpha = ones(size(M));
 Malpha(isnan(M)) = 0;
 % modify the colormap to make smallest black, biggest white.
 colormap([0 0 0; colormap; 1 1 1]);

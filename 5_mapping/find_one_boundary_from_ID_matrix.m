@@ -1,4 +1,4 @@
-% [boundaryTF, boundaryID, neighborID, tripleTF, tripleID] 
+% [boundaryTF, boundaryID, neighborID, tripleTF, tripleID, indTriple, triIDs]  
 % = find_one_boundary_from_ID_matrix(ID)
 % Find a boundary depending on the right and bottom pixel. If the pixel to
 % the right/bottom belongs to another grain, it is a grain boundary point.
@@ -20,8 +20,13 @@
 % defects of the algorithm.  So, first change ID=0 to another ID_special,
 % to treat this problem.  After finding boundaries/neighborID/tripleID,
 % change it back.
+%
+% chenzhe, 2019-08-27, add:
+% indTriple = linear index of triple points
+% triIDs = nx3 matrix, each row is a set of 3 grain IDs related to a
+% triple point.
 
-function [boundaryTF, boundaryID, neighborID, tripleTF, tripleID] = find_one_boundary_from_ID_matrix(ID)
+function [boundaryTF, boundaryID, neighborID, tripleTF, tripleID, indTriple, triIDs] = find_one_boundary_from_ID_matrix(ID)
 
 % this is to treat initial ID=0
 ID_input = ID;
@@ -65,7 +70,16 @@ tripleID(tripleTF) = ID_input(tripleTF);
 boundaryTF = double(boundaryTF);
 tripleTF = double(tripleTF);
 
-disp('found one-pixel width boundaryTF and tripleTF');
+% disp('found one-pixel width boundaryTF and tripleTF');
+
+indTriple = find(tripleTF(:)==1);
+triIDs = zeros(length(indTriple),3);
+for ii = 1:size(triIDs,1)
+    ids = unique([ID(indTriple(ii)), nb_r(indTriple(ii)), nb_b(indTriple(ii)), nb_br(indTriple(ii))]);
+    ids(ids==0) = [];
+    triIDs(ii,:) = ids(1:3);
+end
+
 
 %% check by plotting gb and triple point
 % close all;

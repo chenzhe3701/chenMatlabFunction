@@ -2,6 +2,9 @@
 % use euler angle, crystal symmetry, to calculate misorientation angle
 % 
 % chenzhe, 2017
+%
+% chenzhe, 2019-04-02, modify to use my_quat2axang()
+
 function [theta_d, theta_r] = calculate_misorientation_euler_d(euler1_d, euler2_d, CS)
     switch CS
         case {'HCP','hcp','Hcp'}
@@ -19,7 +22,13 @@ function [theta_d, theta_r] = calculate_misorientation_euler_d(euler1_d, euler2_
     delta = quatmultiply(quatconj(q),Q);
     
     for ii = 1:length(S)
-        theta_r(ii,:) = quat2axang(quatmultiply(delta,S(ii,:)));        % using function from robotics...ToolBox
+        theta_r(ii,:) = my_quat2axang(quatmultiply(delta,S(ii,:)));        % using function from robotics...ToolBox
+        
+        % Double check if they are the same
+        % theta_r_built(ii,:)  = quat2axang(quatmultiply(delta,S(ii,:)));
+        % theta_r(ii,:) - theta_r_built(ii,:)
+        % theta_r(ii,:) + theta_r_built(ii,:)
+
     end
     theta_r = theta_r(:,4);
     

@@ -6,7 +6,7 @@
 % Can crop.  Can use filter.
 %
 
-function [yOffset, xOffSet] = normxcorr2A_register(img1_template, img2_signal, crop1, crop2, filterTF)
+function [yOffSet, xOffSet] = normxcorr2A_register(img1_template, img2_signal, crop1, crop2, filterTF)
 
 img1 = double(img1_template);
 img2 = double(img2_signal);
@@ -37,11 +37,11 @@ end
 cc = normxcorr2A(img1,img2,filterTF);
 [ypeak, xpeak] = find(cc == max(cc(:)));
 % img1 wrt img2
-yOffset = ypeak - size(img1,1);
+yOffSet = ypeak - size(img1,1);
 xOffSet = xpeak - size(img1,2);
 
 % consider initial cut
-yOffset = yOffset - r1a + r2a;
+yOffSet = yOffSet - r1a + r2a;
 xOffSet = xOffSet - c1a + c2a;
 
 end

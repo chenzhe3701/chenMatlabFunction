@@ -52,7 +52,7 @@ switch k
             c=colorbar;
             caxis(caxis);
         end
-        hold;
+        hold on;
         boundaryTF = M{2};
         boundaryTF(boundaryTF==0)=NaN;
         boundaryTF = boundaryTF * max(max(M{1}(:),10000));
@@ -83,8 +83,8 @@ switch k
         surf(x,y,double(M{3}),'edgecolor','none');
         c=colorbar;
         caxis(caxis);
-        hold;
-        boundaryTF = M{4};
+        hold on;
+        boundaryTF = double(M{4});
         boundaryTF(boundaryTF==0)=NaN;
         boundaryTF = boundaryTF * max(max(M{3}(:),10000));
         surf(x,y,double(boundaryTF));
@@ -100,4 +100,5 @@ try
     clim = quantile(m,[0.005,0.995]);
     caxis(clim);
 end
+disableDefaultInteractivity(a);
 end

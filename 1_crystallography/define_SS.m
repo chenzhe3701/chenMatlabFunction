@@ -12,6 +12,9 @@
 % add nss, ntwin, ssGroup as output.
 % ssGroup is just to aid plotting.
 % haven't add twin system for FCC.
+%
+% chenzhe, 2019-09-11. add contraction twin 'ctwin' to Mg.
+% did not check if correct.
 
 function [ssa, c_a, nss, ntwin, ssGroup] = define_SS(str1,str2)
 if any(strcmpi(str1,{'Ti','Titanium','Zr','Zirconium'}))
@@ -127,6 +130,18 @@ elseif any(strcmpi(str1,{'Mg','Magnesium'}))
         ssa(:,:,23) = [0 -1 1 2; 0 1 -1 1];
         ssa(:,:,24) = [1 -1 0 2; -1 1 0 1];
     end
+    if strcmpi(str2,'ctwin')
+        % contraction twin
+        ntwin = 12;
+        ssGroup = [ssGroup,ssGroup(end)+6,ssGroup(end)+12];
+        ssa(:,:,25) = [1 0 -1 1; 1 0 -1 -2];
+        ssa(:,:,26) = [0 1 -1 1; 0 1 -1 -2];
+        ssa(:,:,27) = [-1 1 0 1; -1 1 0 -2];
+        ssa(:,:,28) = [-1 0 1 1; -1 0 1 -2];
+        ssa(:,:,29) = [0 -1 1 1; 0 -1 1 -2];
+        ssa(:,:,30) = [1 -1 0 1; 1 -1 0 -2];
+    end
+
 elseif any(strcmpi(str1,{'Al','Aluminum','Fcc'}))
     c_a = 1;
     nss = 12;

@@ -1,5 +1,9 @@
 % this is generation for each point, so it should be very slow
-function RGBout = generate_IPF_map_in_ND(x,y,phi1,phi,phi2,boundaryTF)
+%
+% chenzhe, 2019-10-29,
+% modify to take input phi_sys
+
+function RGBout = generate_IPF_map_in_ND(x,y,phi1,phi,phi2,boundaryTF,phi_sys)
 if size(x,2)==1     % if input is not matrix, change it to matrix
     uniqueX = unique(x(:));
     uniqueY = unique(y(:));
@@ -28,7 +32,7 @@ for ii = 1:size(x,1)
         if boundaryTF(ii,jj) == 1
             RGB = [0 0 0];
         else
-            RGB = calculate_IPF_color_hcp([phi1(ii,jj),phi(ii,jj),phi2(ii,jj)],[0 0 1]);
+            RGB = calculate_IPF_color_hcp([phi1(ii,jj),phi(ii,jj),phi2(ii,jj)], phi_sys, [0 0 1]);
         end
         R(ii,jj) = RGB(1);
         G(ii,jj) = RGB(2);
