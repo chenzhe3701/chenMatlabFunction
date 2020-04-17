@@ -1,6 +1,7 @@
 % [phi1_d,phi_d,phi2_d]=align_euler_to_sample(phi1_d,phi_d,phi2_d,method,p1,pp,pb)
 % input should be in degree
-% [p1,pp,pb] are the additional rotations
+% [p1,pp,pb] are the additional rotations. For MSU-Tescan, UMich-Tescan, it
+% is [90, 180, 0].  For UCSB-Teneo and UCSB-Tribeam, it is [-90,180,0].
 % method == 'mtex' or 1 requires the mtex toolbox
 % method == 0 requires my functions
 %
