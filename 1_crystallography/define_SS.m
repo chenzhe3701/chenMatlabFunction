@@ -15,8 +15,12 @@
 %
 % chenzhe, 2019-09-11. add contraction twin 'ctwin' to Mg.
 % did not check if correct.
+% 
+% chenzhe, add note 2020-03-25
+% choice for str2 = {'twin','ctwin','pyii','whatever=notwin'}
 
 function [ssa, c_a, nss, ntwin, ssGroup] = define_SS(str1,str2)
+
 if any(strcmpi(str1,{'Ti','Titanium','Zr','Zirconium'}))
     c_a = 1.59;
     nss = 24;
