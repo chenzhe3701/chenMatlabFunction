@@ -69,7 +69,7 @@ switch k
         set(f,'position',[50,50,800,600]);
         surf(x,y,double(M{3}),'edgecolor','none');
         c=colorbar;
-        caxis(caxis);
+        caxis(caxis); 
         title(strrep(inputname(3),'_','\_'));
         m = M{3};
     case {4,5}
@@ -101,4 +101,5 @@ try
     caxis(clim);
 end
 disableDefaultInteractivity(a);
+hold on;
 end
