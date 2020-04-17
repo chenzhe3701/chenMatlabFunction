@@ -21,10 +21,14 @@
 % along X-right direction. The transformation from 'imaging system' to
 % 'EBSD system' can be described by phi_sys = [90,180,0].
 % 
-% For UM system, the setting is the OIM-setting-2.  It is said that this is
-% the setting used by 'most modern SEM systems'. A1 is along -Y (up)
-% direction.  A2 is along -X (left) direction. There are two ways to
-% understand this setting.
+% For UM system, the setting was set as the OIM-setting-2.  It is said that
+% this is the setting used by 'most modern SEM systems'. A1 is along -Y
+% (up) direction.  A2 is along -X (left) direction. There are two ways to
+% understand this setting. --> But, if you look at the physical setup, it
+% is setting-1: to do EBSD, sample-top on SEM view moved closer.
+%
+% For UCSB system, the setting is indeed setting-2.  To do EBSD, SEM view
+% sample-top moved farther away.
 %
 % Method-1: global is still the 'image processing system', however, when I
 % align the EBSD detector to the global system, the X-of-EBSD detector is
