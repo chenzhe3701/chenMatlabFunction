@@ -14,9 +14,9 @@ for iR = 1:nR_pool
     for iC = 1:nC_pool
         patch = img(poolSize*(iR-1)+1:poolSize*iR,poolSize*(iC-1)+1:poolSize*iC);
         if method == 1
-            pooled(iR,iC) = mean(patch(:));
+            pooled(iR,iC) = nanmean(patch(:));
         elseif method == 2
-            pooled(iR,iC) = max(patch(:));
+            pooled(iR,iC) = nanmax(patch(:));
         end
     end
 end

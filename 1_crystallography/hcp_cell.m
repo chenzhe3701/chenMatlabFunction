@@ -1,3 +1,4 @@
+function [] = hcp_cell(varargin)
 % use this script to plot hcp cell with selected features.
 % 2016-07-27, add error to 1x3 vector.
 %
@@ -33,8 +34,6 @@
 % plot plane? ('plotPlane', default = 1)
 % plot burgers vector? ('plotBurgers', default = 1)
 % plot trace? ('plotTrace', default = 1)
-
-function [] = hcp_cell(varargin)
 
 p = inputParser;
 

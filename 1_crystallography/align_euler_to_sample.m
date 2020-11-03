@@ -1,3 +1,7 @@
+
+
+function [phi1_d,phi_d,phi2_d]=align_euler_to_sample(phi1_d,phi_d,phi2_d,method,p1,pp,p2)
+
 % [phi1_d,phi_d,phi2_d]=align_euler_to_sample(phi1_d,phi_d,phi2_d,method,p1,pp,pb)
 % input should be in degree
 % [p1,pp,pb] are the additional rotations. For MSU-Tescan, UMich-Tescan, it
@@ -11,7 +15,6 @@
 % note that it seems like currently, no symmetry considered, so the angle
 % is not regulated
 
-function [phi1_d,phi_d,phi2_d]=align_euler_to_sample(phi1_d,phi_d,phi2_d,method,p1,pp,p2)
 switch method
     case {'mtex',1}
         rot = rotation('Euler',p1*degree,pp*degree,p2*degree);
