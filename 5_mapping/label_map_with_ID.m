@@ -6,8 +6,11 @@
 % if no 'target_ID' provided, label all grains.
 % 
 % chenzhe, 2018-09-03
+%
+% add parameter 'search_step_size'
+% chenzhe, 2020-11-03
 
-function hf = label_map_with_ID(X,Y,ID,hf,target_ID,color_char,font_size)
+function hf = label_map_with_ID(X,Y,ID,hf,target_ID,color_char,font_size,search_step_size)
 
 set(0,'currentfigure',hf);
 
@@ -24,9 +27,13 @@ if ~exist('font_size','var')
 	font_size = 12;
 end
 
-ID_reduced = ID(1:10:end,1:10:end);
-X_reduced = X(1:10:end,1:10:end);
-Y_reduced = Y(1:10:end,1:10:end);
+if ~exist('search_step_size','var')
+	search_step_size = 10;
+end
+ID_reduced = ID(1:search_step_size:end,1:search_step_size:end);
+X_reduced = X(1:search_step_size:end,1:search_step_size:end);
+Y_reduced = Y(1:search_step_size:end,1:search_step_size:end);
+
 z = gca;
 z = z.ZLim(2);
 for ii = 1:length(target_ID)
