@@ -1,6 +1,12 @@
 % hf = label_map_with_ID(X,Y,ID,hf,target_ID)
-% X, Y, ID are matrice of the same size: coordinates and ID_map.
-% hf is the handle_of_figure
+%
+% X: matrix of x coordinates
+% Y: matrix of y coordinates
+% ID: matrix of ID 
+% hf: handle of figure
+% 'target_ID': target id number
+% 'color': string for text color
+% 'text': text string
 %
 % Combine two functions 'label_map_with_ID' and 'label_grain'
 % if no 'target_ID' provided, label all grains.
@@ -8,6 +14,7 @@
 % chenzhe, 2018-09-03
 
 function hf = label_map_with_text(X,Y,ID,hf,varargin)
+
 
 p = inputParser;
 
