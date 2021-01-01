@@ -26,7 +26,7 @@ switch method
             phi1_d(ii) = rotNew.phi1/pi*180;
             phi_d(ii) = rotNew.Phi/pi*180;
             phi2_d(ii) = rotNew.phi2/pi*180;
-            if rem(ii/10000)==1
+            if rem(ii, 10000)==1
                 waitbar(ii/nN, h);
             end
         end
