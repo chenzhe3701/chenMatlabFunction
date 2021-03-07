@@ -47,6 +47,12 @@ thetad = axis_angle(:,4)/pi*180;
 [~,ind] = min(abs(thetad));
 
 quat_out = quatmultiply(q_in, S(ind,:));
+
+% try to make the rotation axis the same
+if dot(quat_out(2:4),q_ref(2:4)) < 0
+    quat_out = -quat_out;
+end
+
 m = quat2dcm(quat_out);
 [a,b,c] = dcm2angle(m,'zxz');
 euler_out = [a,b,c];
