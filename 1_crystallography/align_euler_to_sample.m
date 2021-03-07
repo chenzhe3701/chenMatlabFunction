@@ -27,7 +27,9 @@ switch method
             phi_d(ii) = rotNew.Phi/pi*180;
             phi2_d(ii) = rotNew.phi2/pi*180;
             if rem(ii, 10000)==1
-                waitbar(ii/nN, h);
+                try
+                    waitbar(ii/nN, h);
+                end
             end
         end
         
@@ -43,11 +45,16 @@ switch method
             phi_d(ii) = b/pi*180;
             phi2_d(ii) = c/pi*180;
             if rem(ii,10000)==1
-                waitbar(ii/nN, h);
+                try
+                    waitbar(ii/nN, h);
+                end
             end
         end
         
 end
-close(h);
+try
+    close(h);
+end
 disp(['num of points rotated: ',num2str(ii)]);
 end
+
