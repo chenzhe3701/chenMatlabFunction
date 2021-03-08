@@ -4,7 +4,8 @@ function axang = my_quat2axang(quat)
 % chenzhe, 2019-04-02
 
 g=quat2dcm(quat);
-[thetad, v] = derotation(g);
+R = g'; % note: derotation uses R rather than M
+[thetad, v] = derotation(R);
 
 axang(1:3) = v(1:3);
 axang(4) = thetad/180*pi;

@@ -10,6 +10,8 @@
 
 function [thetad, v, rho]=derotation(rotation_matrix_or_euler_in_degree)
 
+warning('note: use R rather than M as input');
+
 m = size(rotation_matrix_or_euler_in_degree,1);
 if m == 3
     R = rotation_matrix_or_euler_in_degree;
