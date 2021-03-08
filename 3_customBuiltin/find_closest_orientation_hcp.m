@@ -36,9 +36,9 @@ q_ref = angle2quat(euler_ref(1), euler_ref(2), euler_ref(3), 'zxz');
 q_in = angle2quat(euler_in(1), euler_in(2), euler_in(3), 'zxz');
 
 % all symmetrical quaternions of eulerd_in
-equivalent_quats_in = quatmultiply(q_in, S);
+q_in_equivalent = quatmultiply(q_in, S);
 % misorientation between (1) eulerd_ref and (2) all equivalents of eulerd_in 
-delta = quatmultiply(quatconj(q_ref), equivalent_quats_in);
+delta = quatmultiply(quatconj(q_ref), q_in_equivalent);
 % convert misorientation into axis_angle notation
 axis_angle = quat2axang(delta);
 % get the misorientation angle, i.e., the 4th element
@@ -50,6 +50,7 @@ quat_out = quatmultiply(q_in, S(ind,:));
 
 % try to make the rotation axis the same
 if dot(quat_out(2:4),q_ref(2:4)) < 0
+    warning('changed sign');
     quat_out = -quat_out;
 end
 
