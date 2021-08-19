@@ -34,6 +34,8 @@ function [] = hcp_cell(varargin)
 % plot plane? ('plotPlane', default = 1)
 % plot burgers vector? ('plotBurgers', default = 1)
 % plot trace? ('plotTrace', default = 1)
+% 
+% recovered from .asv file, add 'plotAC' option to plot a1,a2,c-axis
 
 p = inputParser;
 
@@ -48,6 +50,7 @@ addParameter(p,'phi_sys',[0 0 0]);
 addParameter(p,'plotPlane',1);
 addParameter(p,'plotBurgers',1);
 addParameter(p,'plotTrace',1);
+addParameter(p,'plotAC',0);
 
 parse(p,varargin{:});
 
@@ -62,6 +65,7 @@ phi_sys = p.Results.phi_sys;
 PLOT_PLANE = p.Results.plotPlane;
 PLOT_BURGERS = p.Results.plotBurgers;
 PLOT_TRACE = p.Results.plotTrace;
+PLOT_AC = p.Results.plotAC;
 
 Colors = [1 0 0; 0 0 1; 0 0 0; 0 1 0; 1 0 1];   % 'r', 'b', 'k', 'g', 'm'
 
@@ -123,6 +127,13 @@ Vertex(15,:) = [-1/3 2/3 -1/3 1/2];
 Vertex(16,:) = [-2/3 1/3 1/3 1/2];
 Vertex(17,:) = [-1/3 -1/3 2/3 1/2];
 Vertex(18,:) = [1/3 -2/3 1/3 1/2];
+
+% for a1, a2, a3, and c-axis
+Vertex(19,:) = Vertex(1,:) * 1;   % a1-axis
+Vertex(20,:) = Vertex(3,:) * 1;   % a2-axis
+Vertex(21,:) = Vertex(5,:) * 1;   % a3-axis
+Vertex(22,:) = [0 0 0 1];         % center of the hexagon at plane z=1
+Vertex(23,:) = [0 0 0 1] * 1;     % c-axis
 
 %  The following construct structure with format:
 %
@@ -340,8 +351,30 @@ for ii = 1:nss  % select %%%%%%%%%%%%%%%%%%%%%%%%%%%-2
             end
         end
         plot(0,0,'ko');
-        title(['order#' num2str(ii) ' SF=' num2str(slpsys(ssn).schmid_factor)]);
-        xlabel(['ss' num2str(ssn) ' n=' mat2str(slpsys(ssn).slp_plane) ' m=' mat2str(slpsys(ssn).slp_dir)])
+%         title(['order#' num2str(ii) ' SF=' num2str(slpsys(ssn).schmid_factor)]);
+%         xlabel(['ss' num2str(ssn) ' n=' mat2str(slpsys(ssn).slp_plane) ' m=' mat2str(slpsys(ssn).slp_dir)]);
+%         ylabel(['euler: ', num2str(euler, '%5.0f')]);
+
+        title(['order#' num2str(ii) ' SF=' num2str(slpsys(ssn).schmid_factor, '%.3f'), newline, ...
+            'ss' num2str(ssn) ' n=' mat2str(slpsys(ssn).slp_plane) ' m=' mat2str(slpsys(ssn).slp_dir), newline, ...
+            'euler: ', num2str(euler, '%5.0f')], 'fontweight', 'normal');
+        
+        % if plot a1,a2,a3,c-axis
+        if PLOT_AC
+            % a1-axis, from origin to vertex-1
+            if ((IMAGING_CONVENTION~=1)&&(Rot_Vertex(22,2)>0)) || ((IMAGING_CONVENTION==1)&&(Rot_Vertex(22,2)<0)) 
+                plot3([0, Rot_Vertex(19,1)], [0, Rot_Vertex(19,2)], [0, Rot_Vertex(19,3)],'--','Linewidth',2,'Color',[1 0 0]);
+                plot3([0, Rot_Vertex(20,1)], [0, Rot_Vertex(20,2)], [0, Rot_Vertex(20,3)],'--','Linewidth',2,'Color',[0 0.8 0]);
+            else
+                plot3([0, Rot_Vertex(19,1)], [0, Rot_Vertex(19,2)], [0, Rot_Vertex(19,3)],'-','Linewidth',2,'Color',[1 0 0]);
+                plot3([0, Rot_Vertex(20,1)], [0, Rot_Vertex(20,2)], [0, Rot_Vertex(20,3)],'-','Linewidth',2,'Color',[0 0.8 0]);
+            end
+            % c-axis always inside hexagonal cylinder
+            plot3([0, Rot_Vertex(23,1)], [0, Rot_Vertex(23,2)], [0, Rot_Vertex(23,3)],'--','Linewidth',2,'Color',[0 0 1]);
+            
+            plot3(Rot_Vertex(22,1), Rot_Vertex(22,2), Rot_Vertex(22,3), 'k.');
+        end
+        
     end
 end %%%%%%%%%%%%%%%%%%%%%%%%%%%-2
 hold off;
