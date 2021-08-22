@@ -14,12 +14,15 @@ function [phi1_d,phi_d,phi2_d]=align_euler_to_sample(phi1_d,phi_d,phi2_d,method,
 % chenzhe, 2017-09-20
 % note that it seems like currently, no symmetry considered, so the angle
 % is not regulated
+% 
+% chenzhe, 2021-08-22, replace waitbar with updated line in command window
 
 switch method
     case {'mtex',1}
         rot = rotation('Euler',p1*degree,pp*degree,p2*degree);
-        h = waitbar(0,'rotating data...');
+        % h = waitbar(0,'rotating data...');
         nN = length(phi1_d(:));
+        fprintf('rotationg data:      ');
         for ii = 1:nN
             rotOld = rotation('Euler',phi1_d(ii)*degree,phi_d(ii)*degree,phi2_d(ii)*degree);
             rotNew = rot * rotOld;
@@ -28,15 +31,17 @@ switch method
             phi2_d(ii) = rotNew.phi2/pi*180;
             if rem(ii, 10000)==1
                 try
-                    waitbar(ii/nN, h);
+                    % waitbar(ii/nN, h);
+                    fprintf('\b\b\b\b\b %2.0f %%',ii/nN * 100);
                 end
             end
         end
-        
+        fprintf(newline);
     otherwise
         M = angle2dcm(p1/180*pi,pp/180*pi,p2/180*pi,'zxz');
-        h = waitbar(0,'rotating data...');
+        % h = waitbar(0,'rotating data...');
         nN = length(phi1_d(:));
+        fprintf('rotationg data:      ');
         for ii = 1:nN
             m = angle2dcm(phi1_d(ii)/180*pi,phi_d(ii)/180*pi,phi2_d(ii)/180*pi,'zxz');
             m = m*M;
@@ -46,11 +51,12 @@ switch method
             phi2_d(ii) = c/pi*180;
             if rem(ii,10000)==1
                 try
-                    waitbar(ii/nN, h);
+                    % waitbar(ii/nN, h);
+                    fprintf('\b\b\b\b\b %2.0f %%',ii/nN * 100)
                 end
             end
         end
-        
+        fprintf(newline);
 end
 try
     close(h);
