@@ -52,7 +52,7 @@ switch method
             if rem(ii,10000)==1
                 try
                     % waitbar(ii/nN, h);
-                    fprintf('\b\b\b\b\b %2.0f %%',ii/nN * 100)
+                    fprintf('\b\b\b\b\b %2.0f %%',ii/nN * 100);
                 end
             end
         end
