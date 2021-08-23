@@ -17,6 +17,6 @@ columnIndex = zeros(nVariable,1);
 for iVariable=1:nVariable
     columnIndex(iVariable) = find(strcmpi(header,varList{iVariable}));
 end
-display('found variable column index from header cell array');
-display(datestr(now));
+% display('found variable column index from header cell array');
+% display(datestr(now));
 end
