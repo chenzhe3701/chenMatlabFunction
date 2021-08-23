@@ -171,8 +171,8 @@ if grainFileType == 2
     
 end
 
-disp('Header = ');
-disp(header);
+% disp('Header = ');
+% disp(header);
 
 
 
