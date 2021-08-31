@@ -39,7 +39,8 @@ end
 try
     [EBSD_data_2, EBSD_header_2] = grain_file_read(f2);
     column_index_2 = find_variable_column_from_grain_file_header(EBSD_header_2, ...
-        {'grainId','phi1-d','phi-d','phi2-d','x-um','y-um','n-neighbor+id','grain-dia-um','area-umum','edge'});
+        {'grainId','phi1-d','phi-d','phi2-d','x-um','y-um','n-neighbor+id','grain-dia-um','area-umum','edge', ...
+        'aspectRatio','majorAxis','minorAxis','majorOrient','max-Feret-dia','min-Feret-dia'});
     
     % read type-2 grain file and get average info for grains
     data.gID = EBSD_data_2(:,column_index_2(1));
@@ -54,5 +55,12 @@ try
     data.gDiameter = EBSD_data_2(:,column_index_2(8));
     data.gArea = EBSD_data_2(:,column_index_2(9));
     data.gNeighbors = EBSD_data_2(:,(column_index_2(7)+1):(size(EBSD_data_2,2)));
+    
+    data.gAspectRatio = EBSD_data_2(:,column_index_2(11));
+    data.gMajorAxis = EBSD_data_2(:,column_index_2(12));
+    data.gMinorAxis = EBSD_data_2(:,column_index_2(13));
+    data.gMajorOrientation = EBSD_data_2(:,column_index_2(14));
+    data.gMaxFeretDia = EBSD_data_2(:,column_index_2(15));
+    data.gMinFeretDia = EBSD_data_2(:,column_index_2(16));
 catch
 end
