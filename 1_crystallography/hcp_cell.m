@@ -289,8 +289,8 @@ for ii = 1:nss  % select %%%%%%%%%%%%%%%%%%%%%%%%%%%-2
         
         % (2) The following, plot burgers vector. Start point of Burgers vector has circle
         if PLOT_BURGERS
-            plot3([Rot_Vertex(slpsys(ssn).burgers_index(1),1),Rot_Vertex(slpsys(ssn).burgers_index(2),1)],[Rot_Vertex(slpsys(ssn).burgers_index(1),2),Rot_Vertex(slpsys(ssn).burgers_index(2),2)],[Rot_Vertex(slpsys(ssn).burgers_index(1),3),Rot_Vertex(slpsys(ssn).burgers_index(2),3)],'Linewidth',4,'Color','m');
-            plot3(Rot_Vertex(slpsys(ssn).burgers_index(1),1),Rot_Vertex(slpsys(ssn).burgers_index(1),2),Rot_Vertex(slpsys(ssn).burgers_index(1),3),'.','MarkerSize',36,'Color','m');  % start point of Burgers vector has circle.
+            plot3([Rot_Vertex(slpsys(ssn).burgers_index(1),1),Rot_Vertex(slpsys(ssn).burgers_index(2),1)],[Rot_Vertex(slpsys(ssn).burgers_index(1),2),Rot_Vertex(slpsys(ssn).burgers_index(2),2)],[Rot_Vertex(slpsys(ssn).burgers_index(1),3),Rot_Vertex(slpsys(ssn).burgers_index(2),3)],'Linewidth',4,'Color','k');
+            plot3(Rot_Vertex(slpsys(ssn).burgers_index(1),1),Rot_Vertex(slpsys(ssn).burgers_index(1),2),Rot_Vertex(slpsys(ssn).burgers_index(1),3),'.','MarkerSize',48,'Color','k');  % start point of Burgers vector has circle.
         end
         %         plot([Rot_Vertex(slpsys(ssn).burgers_index(1),1),Rot_Vertex(slpsys(ssn).burgers_index(2),1)],[Rot_Vertex(slpsys(ssn).burgers_index(1),2),Rot_Vertex(slpsys(ssn).burgers_index(2),2)],'Linewidth',4,'Color',[0 1 1]);
         %         plot(Rot_Vertex(slpsys(ssn).burgers_index(1),1),Rot_Vertex(slpsys(ssn).burgers_index(1),2),'.','MarkerSize',24,'Color',[0 1 1]);  % start point of Burgers vector has circle.
@@ -357,25 +357,28 @@ for ii = 1:nss  % select %%%%%%%%%%%%%%%%%%%%%%%%%%%-2
 
         title(['order#' num2str(ii) ' SF=' num2str(slpsys(ssn).schmid_factor, '%.3f'), newline, ...
             'ss' num2str(ssn) ' n=' mat2str(slpsys(ssn).slp_plane) ' m=' mat2str(slpsys(ssn).slp_dir), newline, ...
-            'euler: ', num2str(euler, '%5.0f')], 'fontweight', 'normal');
+            'euler: ', num2str(euler, '%5.0f'), newline], 'fontweight', 'normal');
         
         % if plot a1,a2,a3,c-axis
         if PLOT_AC
             % a1-axis, from origin to vertex-1
-            if ((IMAGING_CONVENTION~=1)&&(Rot_Vertex(22,2)>0)) || ((IMAGING_CONVENTION==1)&&(Rot_Vertex(22,2)<0)) 
-                plot3([0, Rot_Vertex(19,1)], [0, Rot_Vertex(19,2)], [0, Rot_Vertex(19,3)],'--','Linewidth',2,'Color',[1 0 0]);
-                plot3([0, Rot_Vertex(20,1)], [0, Rot_Vertex(20,2)], [0, Rot_Vertex(20,3)],'--','Linewidth',2,'Color',[0 0.8 0]);
+            if ((IMAGING_CONVENTION~=1)&&(Rot_Vertex(22,3)>0)) || ((IMAGING_CONVENTION==1)&&(Rot_Vertex(22,3)<0)) 
+                plot3([0, Rot_Vertex(19,1)], [0, Rot_Vertex(19,2)], [0, Rot_Vertex(19,3)],'--','Linewidth',3,'Color',[1 0 0]);
+                plot3([0, Rot_Vertex(20,1)], [0, Rot_Vertex(20,2)], [0, Rot_Vertex(20,3)],'--','Linewidth',3,'Color',[0 0.8 0]);
             else
-                plot3([0, Rot_Vertex(19,1)], [0, Rot_Vertex(19,2)], [0, Rot_Vertex(19,3)],'-','Linewidth',2,'Color',[1 0 0]);
-                plot3([0, Rot_Vertex(20,1)], [0, Rot_Vertex(20,2)], [0, Rot_Vertex(20,3)],'-','Linewidth',2,'Color',[0 0.8 0]);
+                plot3([0, Rot_Vertex(19,1)], [0, Rot_Vertex(19,2)], [0, Rot_Vertex(19,3)],'-','Linewidth',3,'Color',[1 0 0]);
+                plot3([0, Rot_Vertex(20,1)], [0, Rot_Vertex(20,2)], [0, Rot_Vertex(20,3)],'-','Linewidth',3,'Color',[0 0.8 0]);
             end
             % c-axis always inside hexagonal cylinder
-            plot3([0, Rot_Vertex(23,1)], [0, Rot_Vertex(23,2)], [0, Rot_Vertex(23,3)],'--','Linewidth',2,'Color',[0 0 1]);
+            plot3([0, Rot_Vertex(23,1)], [0, Rot_Vertex(23,2)], [0, Rot_Vertex(23,3)],'--','Linewidth',3,'Color',[0 0 1]);
             
             plot3(Rot_Vertex(22,1), Rot_Vertex(22,2), Rot_Vertex(22,3), 'k.');
         end
         
     end
 end %%%%%%%%%%%%%%%%%%%%%%%%%%%-2
+
+axis off;
+axis tight;
 hold off;
 
