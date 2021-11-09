@@ -47,8 +47,12 @@ if exist('method','var') && strcmpi(method,'old')
         q_closest = -q_closest;
     end
 else
-    % chenzhe, updated 2021-03-04
-    if dot(q_closest(2:4),q_ref(2:4)) < 0
+%     % chenzhe, updated 2021-03-04
+%     if dot(q_closest(2:4),q_ref(2:4)) < 0
+%         q_closest = -q_closest;
+%     end
+    % chenzhe, 2021-10-22, maybe we can just do this to help future averaging  
+    if dot(q_closest(1:4),q_ref(1:4)) < 0
         q_closest = -q_closest;
     end
 end
