@@ -48,6 +48,7 @@ updatedValidLabel = unique(updatedValidLabel);
 labelTooSmall = uniqueLabel(gSize<min_size);
 count = 0;
 np = 0;
+inner_count = 0;
 while sum(ismember(label(:),labelTooSmall))
     ni = sum(ismember(label(:),labelTooSmall)); % number of points need to correct
     count = count + 1;
@@ -64,6 +65,13 @@ while sum(ismember(label(:),labelTooSmall))
         if ~isempty(nbOK)
             label(ind) = nbOK(1);
             labelTooSmall(ii) = nan;
+        else 
+            % if ni-np==0, and still isempty(nbOK), means it cannot solve.  Just stop correcting this label?     
+            if ni-np==0
+                label(ind) = 0; % just assign it to 0????????
+                labelTooSmall(ii) = nan;
+                break;
+            end
         end
     end
     labelTooSmall(isnan(labelTooSmall)) = [];
