@@ -1,0 +1,19 @@
+function []=cdi(varargin)
+
+dirs = {'D:\UMich Folder\21 Custom Matlab Tool\chenMatlabFunction';
+    'C:\Users\ZheChen\Documents\MATLAB';
+    'C:\Users\ZheChen\Desktop\';
+    'C:\Work\codes';
+    'D:\p\m\DIC_Analysis';
+    'C:\Work\codes\CodeByDate';
+    'E:\zhec umich Drive';
+};
+
+if nargin>=1
+    cd(dirs{varargin{1}});
+else
+    disp(dirs);
+end
+
+
+end

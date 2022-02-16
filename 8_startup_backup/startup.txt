@@ -1,0 +1,7 @@
+set(groot,'defaultFigureCreateFcn',@(fig,~)addToolbarExplorationButtons(fig));
+set(groot,'defaultAxesCreateFcn',@(ax,~)set(ax.Toolbar,'Visible','off'));
+
+if ~verLessThan('MATLAB','9.7')
+    set(groot,'defaultAxesCreateFcn', ...
+        @(ax,varargin) start(timer('StartDelay',0,'ExecutionMode','singleShot','TimerFcn',@(varargin) axtoolbar(ax,{}))));
+end
